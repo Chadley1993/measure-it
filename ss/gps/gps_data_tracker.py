@@ -46,11 +46,16 @@ def getPositionData(gps):
             gps_payload["longitude"] = formatDegreesMinutes(parts[5], 3)
             gps_payload["tmstamp"] = datetime.now().isoformat()
             gps_datapoints.append(gps_payload)
-    # elif (message == "$GPVTG"):
+    elif (message == "$GPVTG"):
+        gps_payload = {}
+        parts = gps_data.split(",")
+        gps_payload["speedKPH"] = int(float(parts[7]))
+        gps_payload["tmstamp"] = datetime.now().isoformat()
+        gps_datapoints.append(gps_payload)
     #     delta = datetime.now() - START_TIME
     #     parts = gps_data.split(",")
     #     gps_payload["speedKPH"] = int(float(parts[7]))
-    else:
+    
         pass
 
 print("Application started!")
@@ -64,7 +69,7 @@ while running:
     except KeyboardInterrupt:
         running = False
         gps.close()
-        f = open('test-gps-data.json', 'w')
+        f = open('trackday_20250301_01.json', 'w')
         json.dump(gps_datapoints, f)
         f.close()
         print("Application closed!")
