@@ -1,4 +1,16 @@
 <div style="display: flex">
-    <button mat-raised-button [style.background-color]="connectionBtnColor" (click)="onToggleConnect()" style="flex: 1">Connect</button>
-    <button mat-raised-button (click)="onToggleRecord()" disabled style="flex: 1">Record</button>
+    <button mat-raised-button [style.background-color]="connectionBtnColor" (click)="onToggleConnect()" [disabled]="isConnectionDisabled" style="flex: 1; margin: 0px 10px 0px 0px;">Connect</button>
+    <button mat-raised-button [style.background-color]="recordBtnColor" (click)="onToggleRecord()" [disabled]="isRecordDisabled" style="flex: 1; margin: 0px 0px 0px 10px;">Record</button>
+</div>
+<br>
+<h2>Track Select</h2>
+
+<h2>Sensors</h2>
+<div style="margin: 1em 0em;">
+    <span style="font-size: large; margin-right: 0.5em;">🟢</span>
+    <mat-slide-toggle (change)="onToggleGPSPrimary($event)">GPS Primary</mat-slide-toggle>
+</div>
+<div style="margin: 1em 0em;">
+    <span style="font-size: large; margin-right: 0.5em;">🔴</span>
+    <mat-slide-toggle (change)="onToggleGPSSecondary($event)">GPS Secondary</mat-slide-toggle>
 </div>

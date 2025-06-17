@@ -1,0 +1,38 @@
+[
+    {
+        "index": 0,
+        "x": 50,
+        "y": 150,
+        "type": "trackine"
+    },
+    {
+        "index": 0,
+        "x": 150,
+        "y": 50,
+        "type": "trackine"
+    },
+    {
+        "index": 0,
+        "x": 250,
+        "y": 80,
+        "type": "trackine"
+    },
+    {
+        "index": 0,
+        "x": 200,
+        "y": 200,
+        "type": "trackine"
+    },
+    {
+        "index": 0,
+        "x": 100,
+        "y": 250.5,
+        "type": "trackine"
+    },
+    {
+        "index": 0,
+        "x": 50,
+        "y": 150,
+        "type": "trackine"
+    }
+]

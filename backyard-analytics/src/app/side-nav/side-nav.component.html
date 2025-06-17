@@ -1,11 +1,14 @@
 <mat-sidenav-container>
     <mat-sidenav mode="side" opened >
-        <h1>Configuration</h1>
+        <h1>Controls</h1>
         <app-control-plane></app-control-plane>
     </mat-sidenav>
     <mat-sidenav-content>
-        <div class="main-content mat-elevation-z4" style="background-color: brown;">
-            <h1>Right</h1>
+        <div class="main-content mat-elevation-z4">
+            <div style="display: flex;">
+                <h1 style="flex: 1;">Lap: --/--</h1>
+                <h1 class="display-data" style="flex: 1; font-size: xx-large;">In Pits</h1>
+            </div>
             <app-gps-speed></app-gps-speed>
             <br>
             <app-live-tracker></app-live-tracker>
