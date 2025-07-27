@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
-	"strconv"
 	"time"
 
 	"measure-it.com/central-server/models"
@@ -38,7 +37,7 @@ func GPSSimulator(name string, stop chan int8, update chan GPSSimConfig) {
 		case <-stop:
 			return
 		default:
-			gpsData.SpeedKPH = strconv.Itoa(rand.Intn(100))
+			gpsData.SpeedKPH = rand.Float64() * 100
 			jsonData, err := json.Marshal(gpsData)
 			if err != nil {
 				fmt.Println("Error Marshalling data:", err)

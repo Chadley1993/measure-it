@@ -2,13 +2,12 @@ import serial
 from datetime import datetime
 import time
 import json
+import requests
 
 SERIAL_PORT = "/dev/ttyACM0"
 running = True
 gps_datapoints = []
 
-START_TIME = datetime.now()
-gps_payload = {'longitude': 0.0, 'latitude': 0.0, 'speedKPH': 0.0}
 # In the NMEA message, the position gets transmitted as:
 # DDMM.MMMMM, where DD denotes the degrees and MM.MMMMM denotes
 # the minutes. However, I want to convert this format to the following:
@@ -45,18 +44,17 @@ def getPositionData(gps):
             gps_payload["latitude"] = formatDegreesMinutes(parts[3], 2)
             gps_payload["longitude"] = formatDegreesMinutes(parts[5], 3)
             gps_payload["tmstamp"] = datetime.now().isoformat()
+            gps_payload["sensorName"] = "gps-position-1"
+            requests.post("http://127.0.0.1:8080/sensorData", json=gps_payload, timeout=5)
             gps_datapoints.append(gps_payload)
     elif (message == "$GPVTG"):
         gps_payload = {}
         parts = gps_data.split(",")
         gps_payload["speedKPH"] = int(float(parts[7]))
         gps_payload["tmstamp"] = datetime.now().isoformat()
+        gps_payload["sensorName"] = "gps-speed-1"
+        requests.post("http://127.0.0.1:8080/sensorData", json=gps_payload, timeout=5)
         gps_datapoints.append(gps_payload)
-    #     delta = datetime.now() - START_TIME
-    #     parts = gps_data.split(",")
-    #     gps_payload["speedKPH"] = int(float(parts[7]))
-    
-        pass
 
 print("Application started!")
 gps = serial.Serial(SERIAL_PORT, baudrate = 9600, timeout = 0.5)
@@ -64,12 +62,11 @@ gps = serial.Serial(SERIAL_PORT, baudrate = 9600, timeout = 0.5)
 while running:
     try:
         getPositionData(gps)
-        START_TIME = datetime.now()
-        time.sleep(0.1)
+        time.sleep(0.25)
     except KeyboardInterrupt:
         running = False
         gps.close()
-        f = open('trackday_20250301_01.json', 'w')
+        f = open('trackday_<data-now>.json', 'w')
         json.dump(gps_datapoints, f)
         f.close()
         print("Application closed!")

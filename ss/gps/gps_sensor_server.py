@@ -43,12 +43,12 @@ def getPositionData(gps):
         else:
             gps_payload["latitude"] = formatDegreesMinutes(parts[3], 2)
             gps_payload["longitude"] = formatDegreesMinutes(parts[5], 3)
-            requests.post("http://localhost:8080/data-bridge", json=gps_payload, headers={'sensor-name': 'gps-1'})
+            requests.post("http://localhost:8080/data-plane", json=gps_payload, headers={'sensor-name': 'gps-1'})
     elif (message == "$GPVTG"):
         delta = datetime.now() - START_TIME
         parts = gps_data.split(",")
         gps_payload["speedKPH"] = int(float(parts[7]))
-        requests.post("http://localhost:8080/data-bridge", json=gps_payload, headers={'sensor-name': 'gps-1'})
+        requests.post("http://localhost:8080/data-plane", json=gps_payload, headers={'sensor-name': 'gps-1'})
     else:
         pass
 
