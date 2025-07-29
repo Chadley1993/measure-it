@@ -14,6 +14,8 @@ func main() {
 	router.GET("/carData", controllers.GetCarData)
 	router.POST("/sensorData", controllers.PostSensorData)
 
+	router.PATCH("gpsConfig", controllers.PatchGPSSamplingRate)
+
 	router.POST("/simulator", controllers.PostStartSimulator)
 	router.PATCH("/simulator", controllers.PatchSimulator)
 	router.DELETE("/simulator", controllers.DeleteSimulator)

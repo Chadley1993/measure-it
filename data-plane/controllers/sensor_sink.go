@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"measure-it.com/central-server/models"
@@ -12,10 +12,15 @@ import (
 func PostSensorData(context *gin.Context) {
 	var data models.Dataframe
 	if err := context.ShouldBindJSON(&data); err != nil {
-		fmt.Println(context.Request.Body)
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body", "errorMessage": err.Error()})
 		return
 	}
 	services.UpdateSensorData(data)
-	context.Status(http.StatusOK)
+
+	if strings.HasPrefix(data.SensorName, "gps-") {
+		gpsResponse := services.GetGPSSamplingRate()
+		context.JSON(http.StatusOK, gpsResponse)
+		return
+	}
+	context.Status(http.StatusNoContent)
 }

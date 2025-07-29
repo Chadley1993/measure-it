@@ -9,8 +9,9 @@ import (
 )
 
 var (
-	instance map[string]models.Dataframe
-	once     sync.Once
+	instance  map[string]models.Dataframe
+	once      sync.Once
+	ConfigMap sync.Map
 )
 
 func GetSensorStore() map[string]models.Dataframe {
