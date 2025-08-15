@@ -1,4 +1,4 @@
-import { Component, effect, signal, WritableSignal } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import { MyService } from '../my-service.service';
 
