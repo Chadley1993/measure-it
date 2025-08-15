@@ -40,7 +40,7 @@ export class LiveTrackerComponent implements OnInit {
       .append('path')
       .attr('d', pathData)
       .attr('fill', 'none')
-      .attr('stroke', 'darkblue')
+      .attr('stroke', 'rgba(176, 187, 21, 1)')
       .attr('stroke-width', 2);
   }
 }
