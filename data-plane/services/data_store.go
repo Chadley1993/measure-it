@@ -9,14 +9,14 @@ import (
 )
 
 var (
-	instance  map[string]models.Dataframe
-	once      sync.Once
-	ConfigMap sync.Map
+	instance    map[string]models.Dataframe
+	once        sync.Once
+	ConfigStore models.ConfigData
 )
 
 func GetSensorStore() map[string]models.Dataframe {
 	once.Do(func() {
-		fmt.Println("Create map!!!")
+		fmt.Println("Create SensorStore map!!!")
 		instance = make(map[string]models.Dataframe)
 	})
 	return instance

@@ -6,13 +6,33 @@ import (
 	"measure-it.com/central-server/models"
 )
 
-func GetGPSSamplingRate() (sampleRate models.GPSFeedback) {
-	gpsResponse := models.GPSFeedback{}
-	if val, ok := ConfigMap.Load("gpsSamplingRate"); ok {
-		gpsResponse.SampleRate = val.(float32)
-		return gpsResponse
-	}
-	fmt.Println("Using default sampling rate")
-	gpsResponse.SampleRate = 20 //Default value
+func GetConfigStore() *models.ConfigData {
+	once.Do(func() {
+		fmt.Println("Create ConfigStore map!!!")
+		ConfigStore = models.ConfigData{
+			// use as defaults
+			GPSSampleRate: 20,
+			RPiHostIP:     "x.x.x.x",
+			ActiveRecord:  false,
+		}
+
+	})
+	return &ConfigStore
+}
+
+func GetConfig() (sampleRate *models.ConfigData) {
+	gpsResponse := GetConfigStore()
 	return gpsResponse
 }
+
+func UpdateSamplingRate(newSamplingRate int32) {
+	gpsResponse := GetConfigStore()
+	gpsResponse.GPSSampleRate = newSamplingRate
+}
+
+func UpdateRPiHostIP(rpiIP string) {
+	gpsResponse := GetConfigStore()
+	gpsResponse.RPiHostIP = rpiIP
+}
+
+// This more STATE than it is Config to be fair

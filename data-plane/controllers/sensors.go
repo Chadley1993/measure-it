@@ -18,9 +18,21 @@ func PostSensorData(context *gin.Context) {
 	services.UpdateSensorData(data)
 
 	if strings.HasPrefix(data.SensorName, "gps-") {
-		gpsResponse := services.GetGPSSamplingRate()
+		gpsResponse := services.GetConfig()
 		context.JSON(http.StatusOK, gpsResponse)
 		return
 	}
 	context.Status(http.StatusNoContent)
+}
+
+func GetCarData(c *gin.Context) {
+	sensorName := c.QueryArray("sensorName")
+	c.PureJSON(http.StatusOK, services.GetRequestedData(sensorName))
+}
+
+func GetAllData(c *gin.Context) {
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+	c.Writer.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, Accept")
+	c.PureJSON(http.StatusOK, services.GetSensorStore())
 }

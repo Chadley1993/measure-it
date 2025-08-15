@@ -8,7 +8,7 @@ import { SensorData } from './sensor-data.model';
   providedIn: 'root',
 })
 export class MyService {
-  private apiUrl = 'http://localhost:8080/pitWall-bridge'; // Replace with your API URL
+  private apiUrl = 'http://localhost:8080/allSensorData'; // Replace with your API URL
   private intervalId: any;
   isBrowser = signal(false);
 
@@ -20,8 +20,7 @@ export class MyService {
 
   startDataStream() {
     if (this.isBrowser()) {
-      console.log("starting data stream!");
-      this.intervalId = setInterval(() => this.updateData(), 250); // Every 250 ms
+      this.intervalId = setInterval(() => this.updateData(), 1000); // Every 250 ms
     }
   }
 
@@ -37,9 +36,11 @@ export class MyService {
     this.postData(payload).subscribe({
       next: (data) => {
         console.log(data);
-        this.sensorData.update((s) => 
-          s = data[0]["data"]
-        );
+        this.sensorData.update(s => ({
+          speedKPH: data["gps-speed-1"]["speedKPH"],
+          latitude:data ["gps-position-1"]["latitude"],
+          longitude: data["gps-position-1"]["longitude"]
+        }));
       },
       error:
       (error) => {
@@ -49,6 +50,6 @@ export class MyService {
   }
 
   postData(payload: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, payload);
+    return this.http.get<any>(this.apiUrl);
   }
 }

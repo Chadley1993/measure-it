@@ -1,5 +1,7 @@
 package models
 
-type GPSFeedback struct {
-	SampleRate float32 `json:"sampleRate" binding:"required"`
+type ConfigData struct {
+	GPSSampleRate int32  `json:"gpsSampleRate"`
+	RPiHostIP     string `json:"rpiHostIP"`
+	ActiveRecord  bool   `json:"activeRecord"`
 }

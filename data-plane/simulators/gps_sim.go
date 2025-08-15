@@ -37,7 +37,7 @@ func GPSSimulator(name string, stop chan int8, update chan GPSSimConfig) {
 		case <-stop:
 			return
 		default:
-			gpsData.SpeedKPH = rand.Float64() * 100
+			gpsData.SpeedKPH = rand.Int63() * 100
 			jsonData, err := json.Marshal(gpsData)
 			if err != nil {
 				fmt.Println("Error Marshalling data:", err)

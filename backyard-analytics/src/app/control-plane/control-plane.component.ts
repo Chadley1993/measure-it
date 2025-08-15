@@ -49,9 +49,11 @@ export class ControlPlaneComponent implements OnInit {
     if (this.connectionBtnColor == '#424242') {
       this.connectionBtnColor = 'red';
       this.isRecordDisabled = false;
+      this.myService.startDataStream()
     } else {
       this.connectionBtnColor = '#424242';
       this.isRecordDisabled = true;
+      this.myService.stopDataStream()
     }
   }
 

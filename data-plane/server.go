@@ -11,10 +11,15 @@ func main() {
 	fmt.Println("Starting server...")
 	router := gin.Default()
 
-	router.GET("/carData", controllers.GetCarData)
+	router.GET("/sensorData", controllers.GetCarData)
+	router.GET("/allSensorData", controllers.GetAllData)
 	router.POST("/sensorData", controllers.PostSensorData)
 
-	router.PATCH("gpsConfig", controllers.PatchGPSSamplingRate)
+	router.POST("/dataRecording", controllers.PostDataRecording) //Test only
+
+	router.GET("/config", controllers.GetConfig)
+	router.PATCH("/config/rpi-ip", controllers.PostRPiHostIP)
+	router.PATCH("/config/gps-samapling-rate", controllers.PatchGPSSampleRate)
 
 	router.POST("/simulator", controllers.PostStartSimulator)
 	router.PATCH("/simulator", controllers.PatchSimulator)
