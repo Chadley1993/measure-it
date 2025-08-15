@@ -1,8 +1,17 @@
+@font-face {
+    font-family: 'DigitalClock';
+    src: url('../../assets/fonts/DS-DIGIT.TTF') format('truetype'); 
+}
+
+.display-data{
+    font-family: 'DigitalClock';
+}
+
 mat-sidenav {
     margin: 4px;
     width: 400px;
     border-right: none;
-    background-color: rgb(218, 30, 171); 
+    background-color: rgb(23, 32, 37); 
     color: #eee;
     border-radius: 10px;
     padding: 16px;
@@ -13,7 +22,7 @@ mat-sidenav {
     margin: 4px;
     border-radius: 10px;
     color: #eee;
-    background-color: brown;
+    background-color: rgb(23, 32, 37);
     padding: 16px;
     margin-left: 8px;
 }
