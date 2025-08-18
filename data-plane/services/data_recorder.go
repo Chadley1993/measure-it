@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/oracle/nosql-go-sdk/nosqldb"
@@ -11,18 +12,19 @@ import (
 
 func PushDataToNoSql(activeRecordStatus *chan struct{}) {
 
-	ticker := time.NewTicker(time.Second * 30)
+	ticker := time.NewTicker(time.Second * 20)
+	client, err := createClient()
+	if err != nil {
+		fmt.Println("Error creating client:", err)
+		return
+	}
+
 	for {
 		select {
 		case <-*activeRecordStatus:
 			fmt.Println("Finish recording!")
 			return
 		case <-ticker.C:
-			client, err := createClient()
-			if err != nil {
-				fmt.Println("Error creating client:", err)
-				return
-			}
 			putRequest := createPutRequest()
 
 			_, err = client.Put(putRequest)
@@ -52,7 +54,23 @@ func createPutRequest() *nosqldb.PutRequest {
 }
 
 func createClient() (*nosqldb.Client, error) {
-	provider, err := iam.NewSignatureProviderFromFile("/home/astro/.oci/config", "", "", "")
+	var provider nosqldb.AuthorizationProvider
+	var err error
+	config := os.Getenv("OCI_LOCAL_BUILD")
+
+	if config != "" {
+		provider, err = iam.NewSignatureProviderFromFile(config, "", "", "")
+		if err != nil {
+			fmt.Println("failed to create local principal auth provider: %w", err)
+			return nil, err
+		}
+	} else {
+		provider, err = iam.NewSignatureProviderWithResourcePrincipal("")
+		if err != nil {
+			fmt.Println("failed to create local principal auth provider: %w", err)
+			return nil, err
+		}
+	}
 
 	if err != nil {
 		fmt.Println("Could not create config")
