@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 	"measure-it.com/central-server/models"
@@ -16,12 +15,11 @@ func PostSensorData(context *gin.Context) {
 		return
 	}
 	services.UpdateSensorData(data)
-
-	if strings.HasPrefix(data.SensorName, "gps-") {
-		gpsResponse := services.GetConfig()
-		context.JSON(http.StatusOK, gpsResponse)
-		return
+	gpsPoint := services.Point{
+		X: (data.Latitude - 33.82) * 75000,
+		Y: (data.Longitude - 18.526) * 100000,
 	}
+	services.ProcessGPSData(gpsPoint)
 	context.Status(http.StatusNoContent)
 }
 

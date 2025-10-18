@@ -1,3 +1,17 @@
-<div>
-    <canvas id="MyChart" style="max-height: 280px;">{{ chart }}</canvas>
+<div style="display: flex;">
+    <div style="flex: 6; max-height: 220px; overflow-y: auto; border: 2px solid black; margin-right: 1em;">
+        <h3 style="margin-left: 5px;">Out lap</h3>
+        <h3 style="margin-left: 5px;">Lap 1</h3>
+        <h3 style="margin-left: 5px;">Lap 2</h3>
+        <h3 style="margin-left: 5px;">Lap 3</h3>
+        <h3 style="margin-left: 5px;">Lap 4</h3>
+        <h3 style="margin-left: 5px;">Lap 5</h3>
+        <h3 style="margin-left: 5px;">Lap 6</h3>
+        <h3 style="margin-left: 5px;">Lap 7</h3>
+        <h3 style="margin-left: 5px;">Lap 8</h3>
+        <h3 style="margin-left: 5px;">In lap</h3>
+    </div>
+    <div style="flex: 10;">
+        <canvas id="MyChart" style="max-height: 220px;">{{ chart }}</canvas>
+    </div>
 </div>

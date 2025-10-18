@@ -59,21 +59,36 @@ func PostDataRecording(context *gin.Context) {
 
 // Just using > 20 sampling rate for now
 
-// func PostActiveRecording(c *gin.Context) {
-// 	var data models.ConfigData
-// 	if err := c.ShouldBindJSON(&data); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body", "errorMessage": err.Error()})
-// 		return
-// 	}
-// 	services.ConfigMap.Store("activeRecord", data.ActiveRecord)
-// 	c.Status(http.StatusOK)
-// }
+func Test(context *gin.Context) {
+	// var position services.Point
+	// if err := context.ShouldBindJSON(&position); err != nil {
+	// 	context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body", "errorMessage": err.Error()})
+	// 	return
+	// }
+	var data models.Dataframe
+	if err := context.ShouldBindJSON(&data); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body", "errorMessage": err.Error()})
+		return
+	}
 
-// func GetActiveRecording(c *gin.Context) {
-// 	data, err := services.GetActiveRecording()
-// 	if err != nil {
-// 		c.JSON(http.StatusServiceUnavailable, gin.H{"error": "no host ip available", "errorMessage": err.Error()})
-// 		return
-// 	}
-// 	c.JSON(http.StatusOK, data)
-// }
+	if data.Latitude == 0 && data.Longitude == 0 {
+		context.Status(http.StatusOK)
+		return
+	}
+
+	gpsPoint := services.Point{
+		Y: (data.Latitude - 33.82) * 75000,
+		X: (data.Longitude - 18.526) * 100000,
+	}
+	services.ProcessGPSData(gpsPoint)
+	context.Status(http.StatusOK)
+}
+
+func StartSession(context *gin.Context) {
+	services.StartUp()
+	context.Status(http.StatusOK)
+}
+
+func Health(context *gin.Context) {
+	context.Status(http.StatusOK)
+}

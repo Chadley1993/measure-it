@@ -37,7 +37,7 @@ export class MyService {
       next: (data) => {
         console.log(data);
         this.sensorData.update(s => ({
-          speedKPH: data["gps-speed-1"]["speedKPH"],
+          speedKPH: 60,
           latitude:data ["gps-position-1"]["latitude"],
           longitude: data["gps-position-1"]["longitude"]
         }));
