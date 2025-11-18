@@ -38,8 +38,8 @@ export class MyService {
         console.log(data);
         this.sensorData.update(s => ({
           speedKPH: 60,
-          latitude:data ["gps-position-1"]["latitude"],
-          longitude: data["gps-position-1"]["longitude"]
+          latitude:(data["gps-position-1"]["latitude"] - 33.82) * 75000,
+          longitude: (data["gps-position-1"]["longitude"] - 18.526) * 100000
         }));
       },
       error:

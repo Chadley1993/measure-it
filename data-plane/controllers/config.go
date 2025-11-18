@@ -75,10 +75,9 @@ func Test(context *gin.Context) {
 		context.Status(http.StatusOK)
 		return
 	}
-
 	gpsPoint := services.Point{
-		Y: (data.Latitude - 33.82) * 75000,
-		X: (data.Longitude - 18.526) * 100000,
+		X: (data.Latitude - 33.82) * 75000,
+		Y: (data.Longitude - 18.526) * 100000,
 	}
 	services.ProcessGPSData(gpsPoint)
 	context.Status(http.StatusOK)
